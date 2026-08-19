@@ -765,7 +765,7 @@ async function sha256(s){return crypto.subtle.digest('SHA-256',_e.encode(s));}
 function randStr(n=64){const a=new Uint8Array(n);crypto.getRandomValues(a);return b64url(a);}
 
 async function startOAuth(){
-  if(DBX_APP_KEY==='acyaly00raleo8h'){showConnectErr('App key not set — open the file and set DBX_APP_KEY.');return;}
+  if(DBX_APP_KEY==='FUCK_YOU'){showConnectErr('App key not set — open the file and set DBX_APP_KEY.');return;}
   const v=randStr(64),ch=b64url(await sha256(v));
   sessionStorage.setItem('ht_verifier',v);
   const p=new URLSearchParams({client_id:DBX_APP_KEY,redirect_uri:REDIRECT_URI,response_type:'code',code_challenge:ch,code_challenge_method:'S256',token_access_type:'offline'});
