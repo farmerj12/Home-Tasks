@@ -755,7 +755,7 @@ const isConnected=()=>!!localStorage.getItem('ht_refresh_token');
 //  OAUTH PKCE
 // ══════════════════════════════════════════════════════════════════
 // ── SET YOUR DROPBOX APP KEY HERE ──
-const DBX_APP_KEY='21n1vkagxmqhjdl';
+const DBX_APP_KEY='acyaly00raleo8h';
 const REDIRECT_URI=window.location.origin+window.location.pathname.replace(/\/$/,'');
 const DBX_PATH='/tasks.json';
 let _cachedToken=null,_tokenExpiry=0,syncTimer=null;
@@ -765,7 +765,7 @@ async function sha256(s){return crypto.subtle.digest('SHA-256',_e.encode(s));}
 function randStr(n=64){const a=new Uint8Array(n);crypto.getRandomValues(a);return b64url(a);}
 
 async function startOAuth(){
-  if(DBX_APP_KEY==='21n1vkagxmqhjdl'){showConnectErr('App key not set — open the file and set DBX_APP_KEY.');return;}
+  if(DBX_APP_KEY==='acyaly00raleo8h'){showConnectErr('App key not set — open the file and set DBX_APP_KEY.');return;}
   const v=randStr(64),ch=b64url(await sha256(v));
   sessionStorage.setItem('ht_verifier',v);
   const p=new URLSearchParams({client_id:DBX_APP_KEY,redirect_uri:REDIRECT_URI,response_type:'code',code_challenge:ch,code_challenge_method:'S256',token_access_type:'offline'});
