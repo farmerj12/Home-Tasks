@@ -408,6 +408,14 @@ body.drawer-open #drawer { transform:translateX(0); }
 .sub-notes-area{width:100%;background:transparent;border:none;border-top:1px solid var(--border);color:var(--text);font-family:var(--font);font-size:0.83em;line-height:1.65;padding:8px 12px 8px 46px;resize:none;outline:none;overflow-y:auto;box-sizing:border-box;}
 .sub-notes-area::placeholder{color:var(--text3);}
 .sub-notes-area:focus{background:var(--surface3);}
+.sub-notes-btn{background:none;border:1px solid var(--border2);color:var(--text3);font-size:0.6em;padding:2px 6px;border-radius:20px;cursor:pointer;font-family:var(--font);transition:all 0.15s;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.sub-notes-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+.sub-notes-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+.sub-notes-wrap{display:none;border-bottom:1px solid var(--border);background:var(--surface2);}
+.sub-notes-wrap.open{display:block;}
+.sub-notes-area{width:100%;background:transparent;border:none;border-top:1px solid var(--border);color:var(--text);font-family:var(--font);font-size:0.83em;line-height:1.65;padding:8px 12px 8px 46px;resize:none;outline:none;overflow-y:auto;box-sizing:border-box;}
+.sub-notes-area::placeholder{color:var(--text3);}
+.sub-notes-area:focus{background:var(--surface3);}
 /* ══ PLAN OVERLAY ══ */
 #planOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:400;align-items:flex-start;justify-content:center;padding:env(safe-area-inset-top,16px) 12px env(safe-area-inset-bottom,16px);}
 #planOverlay.open{display:flex;}
@@ -603,8 +611,8 @@ body.drawer-open #drawer { transform:translateX(0); }
     <div id="drawerOverlay" onclick="closeDrawer()"></div>
     <div id="drawer">
       <div class="drawer-section-label">Home</div>
-      <div class="drawer-item active" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
-      <div class="drawer-item" data-sec="projects" onclick="switchSection('projects',this)"><span class="di-icon">⬡</span> Projects <span class="di-badge" id="db-projects">0</span></div>
+      <div class="drawer-item active" data-sec="projects" onclick="switchSection('projects',this)"><span class="di-icon">⬡</span> Projects <span class="di-badge" id="db-projects">0</span></div>
+      <div class="drawer-item" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
       <div class="drawer-item" data-sec="reference" onclick="switchSection('reference',this)"><span class="di-icon">◻</span> Reference <span class="di-badge" id="db-reference">0</span></div>
       <div class="drawer-item" data-sec="maintenance" onclick="switchSection('maintenance',this)"><span class="di-icon">🔧</span> Maintenance <span class="di-badge" id="db-maintenance">0</span></div>
       <div class="drawer-divider"></div>
@@ -618,15 +626,15 @@ body.drawer-open #drawer { transform:translateX(0); }
     </div>
 
     <div id="content">
-      <!-- CONTROL -->
-      <div id="section-control" class="section active">
-        <div class="section-header"><div class="section-title">Control</div><button class="add-btn" onclick="addManualTask()">+ Task</button></div>
-        <div class="task-list" id="controlList"></div>
-      </div>
       <!-- PROJECTS -->
-      <div id="section-projects" class="section">
+      <div id="section-projects" class="section active">
         <div class="section-header"><div class="section-title">Projects</div><button class="add-btn" onclick="addProject()">+ Project</button></div>
         <div id="projectsList"></div>
+      </div>
+      <!-- CONTROL -->
+      <div id="section-control" class="section">
+        <div class="section-header"><div class="section-title">Control</div><button class="add-btn" onclick="addManualTask()">+ Task</button></div>
+        <div class="task-list" id="controlList"></div>
       </div>
       <!-- REFERENCE -->
       <div id="section-reference" class="section">
@@ -1269,9 +1277,29 @@ function renderProjects(){
         subDueInput.value=s.due||'';subDueInput.title='Set due date';
         if(s.due){const dc=dueClass(s.due);subDueInput.style.color=dc==='due-overdue'?'var(--red)':dc==='due-today'?'var(--sage)':dc==='due-soon'?'var(--amber)':'var(--text3)';}
         subDueInput.addEventListener('change',function(e){e.stopPropagation();setTaskDue(s.id,'Project',p.id,this.value);});
-        subNameCell.appendChild(subDueInput);
+                subNameCell.appendChild(subDueInput);
+        // Notes toggle button
+        const subNoteBtn=document.createElement('button');
+        subNoteBtn.className='sub-notes-btn'+(s.notesOpen?' active':'');
+        subNoteBtn.textContent='📝 Notes';
+        subNoteBtn.onclick=()=>toggleSubNotes(p.id,s.id);
+        subNameCell.appendChild(subNoteBtn);
         sel.querySelector('.t-check').addEventListener('change',function(){toggleDoneSub(p.id,s.id,this);});
-         subsDiv.appendChild(sel);
+        subsDiv.appendChild(sel);
+        // Subtask notes panel (sibling to the row, inside subsDiv)
+        const subNotesWrap=document.createElement('div');
+        subNotesWrap.className='sub-notes-wrap'+(s.notesOpen?' open':'');
+        subNotesWrap.dataset.sid=s.id;
+        const subNotesTA=document.createElement('textarea');
+        subNotesTA.className='sub-notes-area';
+        subNotesTA.placeholder='Subtask notes…';
+        subNotesTA.value=s.notes||'';
+        const snLines=Math.max(2,Math.min(6,(s.notes||'').split('\n').length+1));
+        subNotesTA.style.height=(snLines*20+14)+'px';subNotesTA.style.maxHeight='120px';
+        subNotesTA.addEventListener('input',function(){const l=Math.max(2,Math.min(6,this.value.split('\n').length+1));this.style.height=(l*20+14)+'px';});
+        subNotesTA.addEventListener('blur',function(){const proj=data.projects.find(x=>x.id===p.id);const sub=proj&&proj.subtasks.find(x=>x.id===s.id);if(sub){sub.notes=this.value;scheduleSync();}});
+        subNotesWrap.appendChild(subNotesTA);
+        subsDiv.appendChild(subNotesWrap);
         // Subtask notes panel
         const subNotesWrap=document.createElement('div');
         subNotesWrap.className='sub-notes-wrap'+(s.notesOpen?' open':'');
@@ -1306,6 +1334,14 @@ function toggleProjNotes(pid){
   if(p.notesOpen&&p.collapsed)p.collapsed=false;
   save_render();
   if(p.notesOpen)setTimeout(()=>{const ta=document.getElementById('proj-notes-'+pid)?.querySelector('textarea');if(ta)ta.focus();},50);
+}
+
+function toggleSubNotes(pid,sid){
+  const p=data.projects.find(x=>x.id===pid);if(!p)return;
+  const s=p.subtasks.find(x=>x.id===sid);if(!s)return;
+  s.notesOpen=!s.notesOpen;
+  save_render();
+  if(s.notesOpen)setTimeout(()=>{const ta=document.querySelector(`.sub-notes-wrap[data-sid="${sid}"] textarea`);if(ta)ta.focus();},50);
 }
 
 function toggleSubNotes(pid,sid){
