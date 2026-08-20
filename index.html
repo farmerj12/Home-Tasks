@@ -400,6 +400,12 @@ body.drawer-open #drawer { transform:translateX(0); }
 .proj-notes-area:focus{background:var(--surface3);}
 .proj-notes-wrap{display:none;border:1px solid var(--border2);border-top:none;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;}
 .proj-notes-wrap.open{display:block;}
+/* ── MOBILE PROJECT LAYOUT ── */
+.c-proj-name{padding:8px 8px 6px 0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;position:relative;}
+.proj-name-row{display:flex;align-items:center;gap:6px;width:100%;min-width:0;}
+.proj-btn-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding-bottom:2px;}
+.sub-name-content{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding:10px 0;}
+.sub-meta-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
 .sub-notes-btn{background:none;border:1px solid var(--border2);color:var(--text3);font-size:0.6em;padding:2px 6px;border-radius:20px;cursor:pointer;font-family:var(--font);transition:all 0.15s;white-space:nowrap;flex-shrink:0;margin-top:3px;}
 .sub-notes-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
 .sub-notes-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
@@ -1229,18 +1235,22 @@ function renderProjects(){
     hdr.innerHTML=`
       <div class="move-btns"><button class="move-btn" onclick="moveProject('${p.id}',-1)" ${isFirst?'disabled':''}>▲</button><button class="move-btn" onclick="moveProject('${p.id}',1)" ${isLast?'disabled':''}>▼</button></div>
       <div class="c-check"><input type="checkbox" class="t-check" id="${ckid}" ${p.done?'checked':''}><label class="check-vis" for="${ckid}"></label></div>
-      <div class="c-proj-name" style="position:relative">
-        <span class="proj-color-dot" style="background:${color}" onclick="openColorPicker('${p.id}',this)"></span>
-        <button class="collapse-btn ${p.collapsed?'collapsed':''}" onclick="toggleCollapse('${p.id}')" style="color:${color}">▼</button>
-        <div class="proj-name-text" contenteditable="true" onblur="updateProjName('${p.id}',this)" onkeydown="handleKeydown(event)" style="color:${color}">${escHtml(p.name)}</div>
-        <button class="add-sub-btn" onclick="addSubtask('${p.id}')">+ subtask</button>
-        <button class="proj-notes-btn ${p.notesOpen?'active':''}" onclick="toggleProjNotes('${p.id}')">📝 Notes</button>
+            <div class="c-proj-name" style="position:relative">
+        <div class="proj-name-row">
+          <span class="proj-color-dot" style="background:${color}" onclick="openColorPicker('${p.id}',this)"></span>
+          <button class="collapse-btn ${p.collapsed?'collapsed':''}" onclick="toggleCollapse('${p.id}')" style="color:${color}">▼</button>
+          <div class="proj-name-text" contenteditable="true" onblur="updateProjName('${p.id}',this)" onkeydown="handleKeydown(event)" style="color:${color}">${escHtml(p.name)}</div>
+        </div>
+        <div class="proj-btn-row">
+          <button class="add-sub-btn" onclick="addSubtask('${p.id}')">+ subtask</button>
+          <button class="proj-notes-btn ${p.notesOpen?'active':''}" onclick="toggleProjNotes('${p.id}')">📝</button>
+        </div>
       </div>
       <div class="c-status"><span class="badge ${BADGE_CLS[p.status]||'badge-Waiting'}" onclick="cycleProjStatus('${p.id}')">${p.status}</span></div>
       <div class="c-del"><button class="del-btn" onclick="deleteProject('${p.id}')">✕</button></div>`;
     // owner tag on project header
-    const projNameCell=hdr.querySelector('.c-proj-name');
-    projNameCell.appendChild(ownerTagEl('proj',p.id,p.owner||null,null));
+   const projBtnRow=hdr.querySelector('.proj-btn-row');
+    projBtnRow.appendChild(ownerTagEl('proj',p.id,p.owner||null,null));
     hdr.querySelector('.t-check').addEventListener('change',function(){toggleDoneProject(p.id,this);});
     grp.appendChild(hdr);
     if(hasSubs){
@@ -1251,25 +1261,26 @@ function renderProjects(){
         sel.innerHTML=`
           <div class="c-check"><input type="checkbox" class="t-check" id="${sid}" ${s.done?'checked':''}><label class="check-vis" for="${sid}"></label></div>
           <div class="c-name">
-            <div class="t-name" contenteditable="true" onblur="updateSubName('${p.id}','${s.id}',this)" onkeydown="handleKeydown(event)">${escHtml(s.name)}</div>
+            <div class="sub-name-content">
+              <div class="t-name" contenteditable="true" onblur="updateSubName('${p.id}','${s.id}',this)" onkeydown="handleKeydown(event)">${escHtml(s.name)}</div>
+              <div class="sub-meta-row"></div>
+            </div>
           </div>
           <div class="c-status"><span class="badge ${BADGE_CLS[s.status]||'badge-Waiting'}" onclick="cycleSubStatus('${p.id}','${s.id}')">${s.status}</span></div>
           <div class="c-del"><button class="del-btn" onclick="deleteSubtask('${p.id}','${s.id}')">✕</button></div>`;
-         const subNameCell=sel.querySelector('.c-name');
-         subNameCell.appendChild(ownerTagEl('sub',s.id,s.owner||null,p.id));
-         // Due date input on subtask
+        const subMetaRow=sel.querySelector('.sub-meta-row');
+        subMetaRow.appendChild(ownerTagEl('sub',s.id,s.owner||null,p.id));
         const subDueInput=document.createElement('input');subDueInput.type='date';
         subDueInput.className='due-date-input'+(s.due?' has-due':'');
         subDueInput.value=s.due||'';subDueInput.title='Set due date';
         if(s.due){const dc=dueClass(s.due);subDueInput.style.color=dc==='due-overdue'?'var(--red)':dc==='due-today'?'var(--sage)':dc==='due-soon'?'var(--amber)':'var(--text3)';}
         subDueInput.addEventListener('change',function(e){e.stopPropagation();setTaskDue(s.id,'Project',p.id,this.value);});
-                subNameCell.appendChild(subDueInput);
-        // Notes toggle button
+        subMetaRow.appendChild(subDueInput);
         const subNoteBtn=document.createElement('button');
         subNoteBtn.className='sub-notes-btn'+(s.notesOpen?' active':'');
-        subNoteBtn.textContent='📝 Notes';
+        subNoteBtn.textContent='📝';
         subNoteBtn.onclick=()=>toggleSubNotes(p.id,s.id);
-        subNameCell.appendChild(subNoteBtn);
+        subMetaRow.appendChild(subNoteBtn);
         sel.querySelector('.t-check').addEventListener('change',function(){toggleDoneSub(p.id,s.id,this);});
         subsDiv.appendChild(sel);
         // Subtask notes panel (sibling to the row, inside subsDiv)
