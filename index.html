@@ -769,7 +769,7 @@ const isConnected=()=>!!localStorage.getItem('ht_refresh_token');
 // ── SET YOUR DROPBOX APP KEY HERE ──
 const DBX_APP_KEY='acyaly00raleo8h';
 const REDIRECT_URI=window.location.origin+window.location.pathname.replace(/\/$/,'');
-const DBX_PATH='tasks.json';
+const DBX_PATH='/tasks.json';
 let _cachedToken=null,_tokenExpiry=0,syncTimer=null;
 
 function b64url(buf){return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
