@@ -471,27 +471,27 @@ body.drawer-open #drawer { transform:translateX(0); }
 .plan-child-del:hover{background:var(--red-bg);color:var(--red);}
 
 
-/* ── PLANTS OVERLAY ── */
-#plantsOverlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;flex-direction:column;}
-#plantsOverlay.open{display:flex;}
-#plantsHeader{min-height:calc(56px + env(safe-area-inset-top));background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:env(safe-area-inset-top) 14px 0;gap:10px;flex-shrink:0;}
-#plantsTitle{font-family:var(--font-serif);font-size:1.1em;font-style:italic;color:var(--text);flex:1;}
-#plantsTitle span{color:var(--accent);font-style:normal;}
-.plants-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px calc(40px + env(safe-area-inset-bottom));}
-.plant-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.plant-table{width:100%;border-collapse:collapse;font-size:0.82em;min-width:700px;}
-.plant-table th{text-align:left;padding:7px 8px;border-bottom:2px solid var(--border);font-size:0.65em;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
-.plant-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text2);}
-.plant-table tr:last-child td{border-bottom:none;}
-.plant-table tr:hover td{background:var(--surface2);}
-.plant-name-cell{font-weight:600;color:var(--text);}
-.plant-freq-badge{display:inline-block;font-size:0.65em;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--accent-bg);color:var(--accent);white-space:nowrap;}
-.plant-due-badge{display:inline-block;font-size:0.65em;font-weight:700;padding:2px 7px;border-radius:20px;}
-.plant-due-ok{background:var(--sage-bg);color:var(--sage);}
-.plant-due-soon{background:var(--amber-bg);color:var(--amber);}
-.plant-due-overdue{background:var(--red-bg);color:var(--red);}
-.plant-edit-btn{background:none;border:1px solid var(--border);color:var(--text3);font-size:0.65em;padding:3px 7px;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all 0.15s;}
-.plant-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
+/* ── ANIMALS OVERLAY ── */
+#animalsOverlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;flex-direction:column;}
+#animalsOverlay.open{display:flex;}
+#animalsHeader{min-height:calc(56px + env(safe-area-inset-top));background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:env(safe-area-inset-top) 14px 0;gap:10px;flex-shrink:0;}
+#animalsTitle{font-family:var(--font-serif);font-size:1.1em;font-style:italic;color:var(--text);flex:1;}
+#animalsTitle span{color:var(--accent);font-style:normal;}
+.animals-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px calc(40px + env(safe-area-inset-bottom));}
+.animal-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.animal-table{width:100%;border-collapse:collapse;font-size:0.82em;min-width:700px;}
+.animal-table th{text-align:left;padding:7px 8px;border-bottom:2px solid var(--border);font-size:0.65em;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
+.animal-table td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text2);}
+.animal-table tr:last-child td{border-bottom:none;}
+.animal-table tr:hover td{background:var(--surface2);}
+.animal-name-cell{font-weight:600;color:var(--text);}
+.animal-freq-badge{display:inline-block;font-size:0.65em;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--accent-bg);color:var(--accent);white-space:nowrap;}
+.animal-due-badge{display:inline-block;font-size:0.65em;font-weight:700;padding:2px 7px;border-radius:20px;}
+.animal-due-ok{background:var(--sage-bg);color:var(--sage);}
+.animal-due-soon{background:var(--amber-bg);color:var(--amber);}
+.animal-due-overdue{background:var(--red-bg);color:var(--red);}
+.animal-edit-btn{background:none;border:1px solid var(--border);color:var(--text3);font-size:0.65em;padding:3px 7px;border-radius:4px;cursor:pointer;font-family:var(--font);transition:all 0.15s;}
+.animal-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 /* ── DUE DATES ── */
 .due-chip { display:inline-flex; align-items:center; font-size:0.62em; font-weight:700; padding:1px 6px; border-radius:10px; margin-left:4px; white-space:nowrap; vertical-align:middle; border:1px solid transparent; }
@@ -561,7 +561,7 @@ body.drawer-open #drawer { transform:translateX(0); }
     <div id="header-actions" style="display:flex;gap:6px;align-items:center;">
       <button class="hdr-btn" id="nightToggleBtn" onclick="toggleNightMode()" title="Day/Night">☀</button>
       <div id="syncDot" onclick="syncNow()" title="Sync"></div>
-      <button class="hdr-btn" onclick="openPlants()" title="Plants">🌱</button>
+      <button class="hdr-btn" onclick="openAnimals()" title="Animals">🐾</button>
       <button class="hdr-btn" id="ladderBtn" onclick="openPlan()" title="Master Plan" style="font-size:1em;padding:5px 8px;">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
           <rect x="1" y="1" width="2" height="14" rx="1" fill="currentColor"/>
@@ -1138,8 +1138,8 @@ function renderControl(){
       const dot=m._catColor?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${m._catColor};margin-right:2px;vertical-align:middle"></span>`:'';
       row.innerHTML=`<div class="c-check"><input type="checkbox" class="t-check" id="${cid}"><label class="check-vis" for="${cid}"></label></div><div class="upcoming-name">${escHtml(m.name)}</div><div class="upcoming-right"><span class="upcoming-date-label ${maintDateClass(diff)}">${maintDateLabel(diff)}</span><span class="upcoming-cat-label">${dot}${escHtml(m._catName||freqLabel(m))}</span></div>`;
       row.querySelector('.t-check').addEventListener('change',function(){if(this.checked){
-        if(m._plantId&&m._type==='water'){const pl=(data.plants||[]).find(x=>x.id===m._plantId);if(pl)pl.waterLast=new Date().toISOString().slice(0,10);}
-        else if(m._plantId&&m._type==='repot'){const pl=(data.plants||[]).find(x=>x.id===m._plantId);if(pl)pl.repotLast=new Date().toISOString().slice(0,10);}
+        if(m._animalId&&m._type==='litter'){const an=(data.animals||[]).find(x=>x.id===m._animalId);if(an)an.litterLast=new Date().toISOString().slice(0,10);}
+        else if(m._animalId&&m._type==='med'){const an=(data.animals||[]).find(x=>x.id===m._animalId);if(an)an.medLast=new Date().toISOString().slice(0,10);}
         else if(m._catId)completeMaintTaskInCat(m._catId,m.id);
         scheduleSync();render();this.checked=false;}});
       wrap.appendChild(row);
@@ -1538,94 +1538,87 @@ window.onload=async()=>{
   if(!isPinSetup()){goSetup();}else{setStep(0);}
 };
 
-// ── PLANTS ──
-let _editPlantId=null;
-function openPlants(){if(!data.plants)data.plants=[];document.getElementById('plantsOverlay').classList.add('open');renderPlantsTable();}
-function closePlants(){document.getElementById('plantsOverlay').classList.remove('open');}
-function plantNextDate(last,freqDays){if(!last||!freqDays)return null;const d=new Date(last+'T00:00:00');d.setDate(d.getDate()+parseInt(freqDays));return d.toISOString().slice(0,10);}
-function plantNextRepotDate(last,freqMo){if(!last||!freqMo)return null;const d=new Date(last+'T00:00:00');d.setMonth(d.getMonth()+parseInt(freqMo));return d.toISOString().slice(0,10);}
-function plantDiffDays(ds){if(!ds)return null;const now=new Date();now.setHours(0,0,0,0);return Math.round((new Date(ds+'T00:00:00')-now)/86400000);}
-function plantDueBadge(diff){if(diff===null)return '';if(diff<0)return '<span class="plant-due-badge plant-due-overdue">'+Math.abs(diff)+'d overdue</span>';if(diff===0)return '<span class="plant-due-badge plant-due-overdue">Today</span>';if(diff<=3)return '<span class="plant-due-badge plant-due-soon">'+diff+'d</span>';return '<span class="plant-due-badge plant-due-ok">'+diff+'d</span>';}
-function renderPlantsTable(){
-  if(!data.plants)data.plants=[];
-  const tbody=document.getElementById('plantTableBody');
-  const empty=document.getElementById('plantEmptyState');
-  if(!data.plants.length){tbody.innerHTML='';if(empty)empty.style.display='';return;}
+// ── ANIMALS ──
+let _editAnimalId=null;
+function animalNextLitterDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setDate(d.getDate()+7);return d.toISOString().slice(0,10);}
+function animalNextMedDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setMonth(d.getMonth()+1);d.setDate(15);return d.toISOString().slice(0,10);}
+function animalNextNailDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setDate(d.getDate()+28);return d.toISOString().slice(0,10);}
+function animalDiffDays(ds){if(!ds)return null;const now=new Date();now.setHours(0,0,0,0);return Math.round((new Date(ds+'T00:00:00')-now)/86400000);}
+function animalDueBadge(diff){if(diff===null)return '—';if(diff<0)return '<span class="animal-due-badge animal-due-overdue">'+Math.abs(diff)+'d overdue</span>';if(diff===0)return '<span class="animal-due-badge animal-due-overdue">Today</span>';if(diff<=3)return '<span class="animal-due-badge animal-due-soon">'+diff+'d</span>';return '<span class="animal-due-badge animal-due-ok">'+diff+'d</span>';}
+function openAnimals(){if(!data.animals)data.animals=[];document.getElementById('animalsOverlay').classList.add('open');renderAnimalsTable();}
+function closeAnimals(){document.getElementById('animalsOverlay').classList.remove('open');}
+
+function renderAnimalsTable(){
+  if(!data.animals)data.animals=[];
+  const tbody=document.getElementById('animalTableBody');
+  const empty=document.getElementById('animalEmptyState');
+  if(!data.animals.length){tbody.innerHTML='';if(empty)empty.style.display='';return;}
   if(empty)empty.style.display='none';
   tbody.innerHTML='';
-  data.plants.forEach(pl=>{
-    const wn=plantNextDate(pl.waterLast,pl.waterFreq);
-    const rn=plantNextRepotDate(pl.repotLast,pl.repotFreq);
-    const wd=plantDiffDays(wn),rd=plantDiffDays(rn);
-    const tr=document.createElement('tr');
-    tr.innerHTML='<td class="plant-name-cell">'+escHtml(pl.name)+'</td>'
-      +'<td>'+escHtml(pl.light||'')+'</td>'+'<td>'+escHtml(pl.soil||'')+'</td>'
-      +'<td>'+(pl.waterFreq?'<span class="plant-freq-badge">Every '+pl.waterFreq+'d</span>':'—')+'</td>'
-      +'<td id="pw-'+pl.id+'">'+(wn?plantDueBadge(wd)+' <span style="font-size:0.75em;color:var(--text3)">'+wn+'</span>':'—')+'</td>'
-      +'<td>'+(pl.repotFreq?'<span class="plant-freq-badge">Every '+pl.repotFreq+'mo</span>':'—')+'</td>'
-      +'<td>'+(rn?plantDueBadge(rd)+' <span style="font-size:0.75em;color:var(--text3)">'+rn+'</span>':'—')+'</td>'
-      +'<td style="font-size:0.78em;color:var(--text3);max-width:120px">'+escHtml(pl.notes||'')+'</td>'
-      +'<td><button class="plant-edit-btn" data-pid="'+pl.id+'">Edit</button></td>';
-    tr.querySelector('.plant-edit-btn').addEventListener('click',function(){openPlantModal(this.dataset.pid);});
-    if(wn&&wd<=2){
-      const doneBtn=document.createElement('button');doneBtn.className='plant-edit-btn';doneBtn.style.marginLeft='4px';doneBtn.textContent='✓ Watered';
-      doneBtn.addEventListener('click',()=>{const p=(data.plants||[]).find(x=>x.id===pl.id);if(p){p.waterLast=new Date().toISOString().slice(0,10);scheduleSync();renderPlantsTable();render();}});
-      document.getElementById('pw-'+pl.id).appendChild(doneBtn);
+  data.animals.forEach(an=>{
+     const ln=animalNextLitterDate(an.litterLast);
+     const mn=animalNextMedDate(an.medLast);
+     const nn=animalNextNailDate(an.nailLast);
+     const ld=animalDiffDays(ln),md=animalDiffDays(mn),nd=animalDiffDays(nn);
+     const tr=document.createElement('tr');
+    tr.innerHTML='<td class="animal-name-cell">'+escHtml(an.name)+'</td>'
+      +'<td><span class="animal-freq-badge">Every 7d</span></td>'
+      +'<td id="al-'+an.id+'">'+(ln?animalDueBadge(ld)+' <span style="font-size:0.75em;color:var(--text3)">'+ln+'</span>':animalDueBadge(null))+'</td>'
+      +'<td><span class="animal-freq-badge">Monthly (15th)</span></td>'
+      +'<td>'+(mn?animalDueBadge(md)+' <span style="font-size:0.75em;color:var(--text3)">'+mn+'</span>':animalDueBadge(null))+'</td>'
+      +'<td>'+(an.nailLast?'<span style="font-size:0.78em;color:var(--text3)">Last: '+an.nailLast+'</span> '+animalDueBadge(nd):'—')+'</td>'
+      +'<td style="font-size:0.78em;color:var(--text3);max-width:120px">'+escHtml(an.notes||'')+'</td>'
+      +'<td><button class="animal-edit-btn" data-aid="'+an.id+'">Edit</button></td>';
+    tr.querySelector('.animal-edit-btn').addEventListener('click',function(){openAnimalModal(this.dataset.aid);});
+    if(ln&&ld<=2){
+      const doneBtn=document.createElement('button');doneBtn.className='animal-edit-btn';doneBtn.style.marginLeft='4px';doneBtn.textContent='✓ Done';
+      doneBtn.addEventListener('click',()=>{const a=(data.animals||[]).find(x=>x.id===an.id);if(a){a.litterLast=new Date().toISOString().slice(0,10);scheduleSync();renderAnimalsTable();render();}});
+      document.getElementById('al-'+an.id).appendChild(doneBtn);
     }
     tbody.appendChild(tr);
   });
 }
 function allPlantTasks(){
-  if(!data.plants)return[];
+  if(!data.animals)return[];
   const out=[];
-  (data.plants||[]).forEach(pl=>{
-    if(pl.waterFreq&&pl.waterLast){
-      const next=plantNextDate(pl.waterLast,pl.waterFreq);
-      out.push({id:'plant-water-'+pl.id,name:'Water '+pl.name,freq:'every_n_days',interval:pl.waterFreq,anchor:next,_plantId:pl.id,_type:'water',_catName:'Plants',_catColor:'#7a9e8e'});
-    }
-    if(pl.repotFreq&&pl.repotLast){
-      const next=plantNextRepotDate(pl.repotLast,pl.repotFreq);
-      out.push({id:'plant-repot-'+pl.id,name:'Repot '+pl.name,freq:'every_n_months',interval:pl.repotFreq,anchor:next,_plantId:pl.id,_type:'repot',_catName:'Plants',_catColor:'#5b8fa8'});
-    }
-  });
-  return out;
+   (data.animals||[]).forEach(an=>{
+      const ln=animalNextLitterDate(an.litterLast);
+      if(ln)out.push({id:'animal-litter-'+an.id,name:'Litterbox: '+an.name,freq:'every_n_days',interval:7,anchor:ln,_animalId:an.id,_type:'litter',_catName:'Animals',_catColor:'#c49a7a'});
+      const mn=animalNextMedDate(an.medLast);
+      if(mn)out.push({id:'animal-med-'+an.id,name:'Medicine: '+an.name,freq:'monthly_date',interval:1,anchor:mn,_animalId:an.id,_type:'med',_catName:'Animals',_catColor:'#9b8ea0'});
+   });
+   return out;
 }
-function openPlantModal(id){
-  _editPlantId=id||null;
-  const pl=id?(data.plants||[]).find(x=>x.id===id):null;
-  document.getElementById('plantModalTitle').textContent=pl?'Edit Plant':'Add Plant';
-  document.getElementById('plant-name').value=pl?pl.name:'';
-  document.getElementById('plant-light').value=pl?pl.light||'':'';
-  document.getElementById('plant-soil').value=pl?pl.soil||'':'';
-  document.getElementById('plant-water-freq').value=pl?pl.waterFreq||'':'';
-  document.getElementById('plant-water-last').value=pl?pl.waterLast||'':'';
-  document.getElementById('plant-repot-freq').value=pl?pl.repotFreq||'':'';
-  document.getElementById('plant-repot-last').value=pl?pl.repotLast||'':'';
-  document.getElementById('plant-notes').value=pl?pl.notes||'':'';
-  document.getElementById('plantDeleteBtn').style.display=pl?'':'none';
-  document.getElementById('plantModalOverlay').classList.add('open');
-  setTimeout(()=>document.getElementById('plant-name').focus(),50);
+function openAnimalModal(id){
+  _editAnimalId=id||null;
+  const an=id?(data.animals||[]).find(x=>x.id===id):null;
+  document.getElementById('animalModalTitle').textContent=an?'Edit Animal':'Add Animal';
+  document.getElementById('animal-name').value=an?an.name:'';
+  document.getElementById('animal-litter-last').value=an?an.litterLast||'':'';
+  document.getElementById('animal-med-last').value=an?an.medLast||'':'';
+  document.getElementById('animal-nail-last').value=an?an.nailLast||'':'';
+  document.getElementById('animal-notes').value=an?an.notes||'':'';
+  document.getElementById('animalDeleteBtn').style.display=an?'':'none';
+  document.getElementById('animalModalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('animal-name').focus(),50);
 }
-function closePlantModal(){document.getElementById('plantModalOverlay').classList.remove('open');_editPlantId=null;}
-function savePlant(){
-  const name=document.getElementById('plant-name').value.trim();if(!name)return;
-  if(!data.plants)data.plants=[];
-  const entry={id:_editPlantId||uid(),name,
-    light:document.getElementById('plant-light').value.trim(),
-    soil:document.getElementById('plant-soil').value.trim(),
-    waterFreq:parseInt(document.getElementById('plant-water-freq').value)||null,
-    waterLast:document.getElementById('plant-water-last').value||null,
-    repotFreq:parseInt(document.getElementById('plant-repot-freq').value)||null,
-    repotLast:document.getElementById('plant-repot-last').value||null,
-    notes:document.getElementById('plant-notes').value.trim()};
-  if(_editPlantId){const idx=data.plants.findIndex(x=>x.id===_editPlantId);if(idx>=0)data.plants[idx]=entry;}
-  else data.plants.push(entry);
-  closePlantModal();scheduleSync();renderPlantsTable();render();
+function closeAnimalModal(){document.getElementById('animalModalOverlay').classList.remove('open');_editAnimalId=null;}
+function saveAnimal(){
+  const name=document.getElementById('animal-name').value.trim();if(!name)return;
+  if(!data.animals)data.animals=[];
+  const entry={id:_editAnimalId||uid(),name,
+    litterLast:document.getElementById('animal-litter-last').value||null,
+    medLast:document.getElementById('animal-med-last').value||null,
+    nailLast:document.getElementById('animal-nail-last').value||null,
+    notes:document.getElementById('animal-notes').value.trim()};
+  if(_editAnimalId){const idx=data.animals.findIndex(x=>x.id===_editAnimalId);if(idx>=0)data.animals[idx]=entry;}
+  else data.animals.push(entry);
+  closeAnimalModal();scheduleSync();renderAnimalsTable();render();
 }
-function deletePlant(){
-  if(!_editPlantId||!confirm('Delete this plant?'))return;
-  data.plants=(data.plants||[]).filter(x=>x.id!==_editPlantId);
-  closePlantModal();scheduleSync();renderPlantsTable();render();
+function deleteAnimal(){
+  if(!_editAnimalId||!confirm('Delete this animal?'))return;
+  data.animals=(data.animals||[]).filter(x=>x.id!==_editAnimalId);
+  closeAnimalModal();scheduleSync();renderAnimalsTable();render();
 }
 
 
@@ -1705,55 +1698,49 @@ function assignTaskToProject(taskId,projId){
 }
 </script>
 
-<!-- PLANTS OVERLAY -->
-<div id="plantsOverlay">
-  <div id="plantsHeader">
-    <div id="plantsTitle">🌱 Plants<span>.</span></div>
-    <button class="hdr-btn" onclick="closePlants()">✕ Close</button>
+<!-- ANIMALS OVERLAY -->
+<div id="animalsOverlay">
+  <div id="animalsHeader">
+    <div id="animalsTitle">🐾 Animals<span>.</span></div>
+    <button class="hdr-btn" onclick="closeAnimals()">✕ Close</button>
   </div>
-  <div class="plants-content">
+  <div class="animals-content">
     <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-      <button class="add-btn" onclick="openPlantModal()">+ Plant</button>
+      <button class="add-btn" onclick="openAnimalModal()">+ Animal</button>
     </div>
-    <div class="plant-table-wrap">
-      <table class="plant-table">
+    <div class="animal-table-wrap">
+      <table class="animal-table">
         <thead><tr>
-          <th>Plant</th><th>Light</th><th>Soil</th>
-          <th>Water Every</th><th>Next Water</th>
-          <th>Repot Every</th><th>Next Repot</th>
+          <th>Animal</th>
+          <th>Litterbox Freq</th><th>Next Litterbox</th>
+          <th>Medicine Freq</th><th>Next Medicine</th>
+          <th>Last Nail Clip</th>
           <th>Notes</th><th></th>
         </tr></thead>
-        <tbody id="plantTableBody"></tbody>
+        <tbody id="animalTableBody"></tbody>
       </table>
     </div>
-    <div id="plantEmptyState" style="display:none;text-align:center;padding:40px 20px;color:var(--text3);font-size:0.85em">
-      <div style="font-size:2em;margin-bottom:10px">🌿</div>No plants yet. Add your first plant above.
+    <div id="animalEmptyState" style="display:none;text-align:center;padding:40px 20px;color:var(--text3);font-size:0.85em">
+      <div style="font-size:2em;margin-bottom:10px">🐾</div>No animals yet. Add your first animal above.
     </div>
   </div>
 </div>
 
-<!-- PLANT MODAL -->
-<div id="plantModalOverlay" class="modal-overlay" onclick="if(event.target.id==='plantModalOverlay')closePlantModal()">
+<!-- ANIMAL MODAL -->
+<div id="animalModalOverlay" class="modal-overlay" onclick="if(event.target.id==='animalModalOverlay')closeAnimalModal()">
   <div class="modal">
-    <h3 id="plantModalTitle">Add Plant</h3>
-    <div class="form-row"><div class="form-label">Plant Name</div><input type="text" id="plant-name" class="form-input" placeholder="e.g. Pothos, Fiddle Leaf Fig"></div>
+    <h3 id="animalModalTitle">Add Animal</h3>
+    <div class="form-row"><div class="form-label">Animal Name</div><input type="text" id="animal-name" class="form-input" placeholder="e.g. Luna, Max"></div>
     <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-row"><div class="form-label">Light Preference</div><input type="text" id="plant-light" class="form-input" placeholder="e.g. Bright indirect"></div>
-      <div class="form-row"><div class="form-label">Soil Preference</div><input type="text" id="plant-soil" class="form-input" placeholder="e.g. Well-draining"></div>
+      <div class="form-row"><div class="form-label">Last Litterbox Clean</div><input type="date" id="animal-litter-last" class="form-input"></div>
+      <div class="form-row"><div class="form-label">Last Medicine</div><input type="date" id="animal-med-last" class="form-input"></div>
     </div>
-    <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-row"><div class="form-label">Water every (days)</div><input type="number" id="plant-water-freq" class="form-input" placeholder="7" min="1"></div>
-      <div class="form-row"><div class="form-label">Last watered</div><input type="date" id="plant-water-last" class="form-input"></div>
-    </div>
-    <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-row"><div class="form-label">Repot every (months)</div><input type="number" id="plant-repot-freq" class="form-input" placeholder="12" min="1"></div>
-      <div class="form-row"><div class="form-label">Last repotted</div><input type="date" id="plant-repot-last" class="form-input"></div>
-    </div>
-    <div class="form-row"><div class="form-label">Notes</div><textarea id="plant-notes" class="form-textarea" placeholder="Any care notes…"></textarea></div>
+    <div class="form-row"><div class="form-label">Last Nail Clip</div><input type="date" id="animal-nail-last" class="form-input"></div>
+    <div class="form-row"><div class="form-label">Notes</div><textarea id="animal-notes" class="form-textarea" placeholder="Any care notes…"></textarea></div>
     <div class="btn-row">
-      <button class="btn primary" onclick="savePlant()">Save</button>
-      <button class="btn danger" id="plantDeleteBtn" onclick="deletePlant()" style="display:none">Delete</button>
-      <button class="btn" onclick="closePlantModal()">Cancel</button>
+      <button class="btn primary" onclick="saveAnimal()">Save</button>
+      <button class="btn danger" id="animalDeleteBtn" onclick="deleteAnimal()" style="display:none">Delete</button>
+      <button class="btn" onclick="closeAnimalModal()">Cancel</button>
     </div>
   </div>
 </div>
