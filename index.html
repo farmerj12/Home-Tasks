@@ -534,7 +534,7 @@ body.drawer-open #drawer { transform:translateX(0); }
 <!-- CONNECT SCREEN -->
 <div id="connectScreen">
   <div class="lock-card">
-    <div class="lock-wordmark">Home<span>.</span></div>
+    <div class="lock-wordmark">Home</div>
     <div class="lock-subtitle">Connect your Dropbox to sync across all your devices.</div>
     <button onclick="startOAuth()" class="lock-btn">
       <svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path d="M10 5L20 12L10 19L0 12Z" fill="white"/><path d="M30 5L40 12L30 19L20 12Z" fill="white"/><path d="M0 26L10 19L20 26L10 33Z" fill="white"/><path d="M20 26L30 19L40 26L30 33Z" fill="white"/><path d="M10 35L20 28L30 35L20 42Z" fill="white"/></svg>
@@ -549,7 +549,7 @@ body.drawer-open #drawer { transform:translateX(0); }
   <div class="lock-card">
     <div class="step-indicator"><div class="step-dot active" id="dot0"></div><div class="step-dot" id="dot1"></div></div>
     <div class="setup-step active" id="step-login">
-      <div class="lock-wordmark">Home<span>.</span></div>
+      <div class="lock-wordmark">Home</div>
       <div class="lock-subtitle">Enter your 4-digit PIN</div>
       <div class="pin-dots"><div class="pin-dot" id="ld0"></div><div class="pin-dot" id="ld1"></div><div class="pin-dot" id="ld2"></div><div class="pin-dot" id="ld3"></div></div>
       <div id="loginErr" class="lock-err"></div>
@@ -557,7 +557,7 @@ body.drawer-open #drawer { transform:translateX(0); }
       <button class="lock-btn secondary" onclick="goSetup()" style="font-size:0.78em;padding:8px">First time on this device?</button>
     </div>
     <div class="setup-step" id="step-pass">
-      <div class="lock-wordmark">Home<span>.</span></div>
+      <div class="lock-wordmark">Home</div>
       <div class="lock-subtitle" id="pinSetupSubtitle">Choose a 4-digit PIN</div>
       <div class="pin-dots"><div class="pin-dot" id="sd0"></div><div class="pin-dot" id="sd1"></div><div class="pin-dot" id="sd2"></div><div class="pin-dot" id="sd3"></div></div>
       <div id="setupPassErr" class="lock-err"></div>
@@ -571,7 +571,7 @@ body.drawer-open #drawer { transform:translateX(0); }
 <div id="app">
   <div id="header">
     <div id="hamburger" onclick="toggleDrawer()"><span></span><span></span><span></span></div>
-    <div id="header-wordmark">Home<span>.</span></div>
+    <div id="header-wordmark">Home</div>
     <div id="header-actions" style="display:flex;gap:6px;align-items:center;">
       <button class="hdr-btn" id="nightToggleBtn" onclick="toggleNightMode()" title="Day/Night">☀</button>
       <div id="syncDot" onclick="syncNow()" title="Sync"></div>
@@ -609,8 +609,8 @@ body.drawer-open #drawer { transform:translateX(0); }
     <div id="drawerOverlay" onclick="closeDrawer()"></div>
     <div id="drawer">
       <div class="drawer-section-label">Home</div>
+       <div class="drawer-item active" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
       <div class="drawer-item" data-sec="projects" onclick="switchSection('projects',this)"><span class="di-icon">⬡</span> Projects <span class="di-badge" id="db-projects">0</span></div>
-      <div class="drawer-item active" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
       <div class="drawer-item" data-sec="reference" onclick="switchSection('reference',this)"><span class="di-icon">◻</span> Reference <span class="di-badge" id="db-reference">0</span></div>
       <div class="drawer-item" data-sec="maintenance" onclick="switchSection('maintenance',this)"><span class="di-icon">🔧</span> Maintenance <span class="di-badge" id="db-maintenance">0</span></div>
       <div class="drawer-divider"></div>
@@ -1748,7 +1748,7 @@ function assignTaskToProject(taskId,projId){
 <!-- ANIMALS OVERLAY -->
 <div id="animalsOverlay">
   <div id="animalsHeader">
-    <div id="animalsTitle">🐾 Animals<span>.</span></div>
+    <div id="animalsTitle">🐾 Animals</div>
     <button class="hdr-btn" onclick="closeAnimals()">✕ Close</button>
   </div>
   <div class="animals-content">
@@ -1797,7 +1797,7 @@ function assignTaskToProject(taskId,projId){
   <div id="planPanel">
     <div id="planPanelHead">
       <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style="color:var(--accent);flex-shrink:0"><rect x="1" y="1" width="2" height="14" rx="1" fill="currentColor"/><rect x="13" y="1" width="2" height="14" rx="1" fill="currentColor"/><rect x="1" y="3.5" width="14" height="1.5" rx="0.75" fill="currentColor"/><rect x="1" y="7.25" width="14" height="1.5" rx="0.75" fill="currentColor"/><rect x="1" y="11" width="14" height="1.5" rx="0.75" fill="currentColor"/></svg>
-      <div id="planPanelTitle">Master Plan<span>.</span></div>
+      <div id="planPanelTitle">Master Plan</div>
       <button class="hdr-btn" onclick="closePlan()">✕ Close</button>
     </div>
     <div id="planBody">
