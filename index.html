@@ -1265,12 +1265,6 @@ function renderProjects(){
           <div class="c-del"><button class="del-btn" onclick="deleteSubtask('${p.id}','${s.id}')">✕</button></div>`;
          const subNameCell=sel.querySelector('.c-name');
          subNameCell.appendChild(ownerTagEl('sub',s.id,s.owner||null,p.id));
-         // Notes toggle button on subtask
-         const subNoteBtn=document.createElement('button');
-         subNoteBtn.className='sub-notes-btn'+(s.notesOpen?' active':'');
-         subNoteBtn.textContent='📝 Notes';
-         subNoteBtn.onclick=()=>toggleSubNotes(p.id,s.id);
-         subNameCell.appendChild(subNoteBtn);
          // Due date input on subtask
         const subDueInput=document.createElement('input');subDueInput.type='date';
         subDueInput.className='due-date-input'+(s.due?' has-due':'');
