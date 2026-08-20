@@ -609,8 +609,8 @@ body.drawer-open #drawer { transform:translateX(0); }
     <div id="drawerOverlay" onclick="closeDrawer()"></div>
     <div id="drawer">
       <div class="drawer-section-label">Home</div>
-      <div class="drawer-item active" data-sec="projects" onclick="switchSection('projects',this)"><span class="di-icon">⬡</span> Projects <span class="di-badge" id="db-projects">0</span></div>
-      <div class="drawer-item" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
+            <div class="drawer-item active" data-sec="control" onclick="switchSection('control',this)"><span class="di-icon">◈</span> Control <span class="di-badge" id="db-control">0</span></div>
+      <div class="drawer-item" data-sec="projects" onclick="switchSection('projects',this)"><span class="di-icon">⬡</span> Projects <span class="di-badge" id="db-projects">0</span></div>
       <div class="drawer-item" data-sec="reference" onclick="switchSection('reference',this)"><span class="di-icon">◻</span> Reference <span class="di-badge" id="db-reference">0</span></div>
       <div class="drawer-item" data-sec="maintenance" onclick="switchSection('maintenance',this)"><span class="di-icon">🔧</span> Maintenance <span class="di-badge" id="db-maintenance">0</span></div>
       <div class="drawer-divider"></div>
@@ -624,15 +624,15 @@ body.drawer-open #drawer { transform:translateX(0); }
     </div>
 
     <div id="content">
+       <!-- CONTROL -->
+      <div id="section-control" class="section">
+        <div class="section-header"><div class="section-title">Control</div><button class="add-btn" onclick="addManualTask()">+ Task</button></div>
+        <div class="task-list" id="controlList"></div>
+      </div>
       <!-- PROJECTS -->
       <div id="section-projects" class="section active">
         <div class="section-header"><div class="section-title">Projects</div><button class="add-btn" onclick="addProject()">+ Project</button></div>
         <div id="projectsList"></div>
-      </div>
-      <!-- CONTROL -->
-      <div id="section-control" class="section">
-        <div class="section-header"><div class="section-title">Control</div><button class="add-btn" onclick="addManualTask()">+ Task</button></div>
-        <div class="task-list" id="controlList"></div>
       </div>
       <!-- REFERENCE -->
       <div id="section-reference" class="section">
