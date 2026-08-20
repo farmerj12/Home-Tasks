@@ -724,18 +724,6 @@ body.drawer-open #drawer { transform:translateX(0); }
 <script>
 'use strict';
 
-   
-document.addEventListener('DOMContentLoaded', () => {
-    const url = new URL(window.location.href);
-    const code = url.searchParams.get('code');
-
-    if (code) {
-        handleOAuthCallback(code)
-            .catch(err => console.error('OAuth callback failed:', err));
-    }
-});
-
-
 // ══════════════════════════════════════════════════════════════════
 //  CRYPTO
 // ══════════════════════════════════════════════════════════════════
