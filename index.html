@@ -196,7 +196,7 @@ body.drawer-open #hamburger span:nth-child(3) { transform:translateY(-6.5px) rot
 .toggle input:checked ~ .toggle-track { background:var(--sage-bg); border-color:var(--sage); }
 .toggle-thumb { position:absolute; top:2px; left:2px; width:12px; height:12px; background:var(--text3); border-radius:50%; transition:all 0.2s; pointer-events:none; }
 .toggle input:checked ~ .toggle-track .toggle-thumb { transform:translateX(14px); background:var(--sage); }
-#todayRows { padding:6px 16px 10px; display:flex; flex-direction:column; gap:4px; }
+#todayRows { padding:6px 16px 10px; display:none; flex-direction:column; gap:4px; }
 .today-row-item { display:flex; align-items:center; gap:10px; background:var(--today-bg); border-radius:var(--radius-sm); padding:7px 10px; min-height:38px; }
 .today-row-item .tri-check { display:none; }
 .today-row-item .tri-visual { width:16px; height:16px; border:1.5px solid var(--border2); border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
@@ -1390,18 +1390,7 @@ function renderToday(){
   data.projects.forEach(p=>(p.subtasks||[]).forEach(s=>{if(s.status==='Today')items.push({id:s.id,name:s.name,done:s.done,src:'sub',pid:p.id,projName:p.name,color:p.color||null,owner:s.owner||null});}));
   const filtered=_activeFilter?items.filter(i=>i.owner===_activeFilter):items;
   document.getElementById('todayCount').innerText=filtered.filter(i=>!i.done).length;
-  const rowsEl=document.getElementById('todayRows');rowsEl.innerHTML='';
-  filtered.forEach(item=>{
-    if(item.done&&!showDone())return;
-    const div=document.createElement('div');div.className='today-row-item'+(item.done?' done-today':'');
-    const cid='trid-'+item.id;
-    const dot=item.color?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${item.color};margin-right:2px;vertical-align:middle"></span>`:'';
-    const ownerLbl=item.owner?(data.ownerLabels||[]).find(x=>x.id===item.owner):null;
-    const ownerDot=ownerLbl?`<span class="owner-pip-sm" style="background:${ownerLbl.color};margin-left:4px;" title="${escHtml(ownerLbl.name)}"></span>`:'';
-    div.innerHTML=`<input type="checkbox" class="tri-check" id="${cid}" ${item.done?'checked':''}><label class="tri-visual" for="${cid}"></label><span class="tri-name">${escHtml(item.name)}${ownerDot}</span>${item.projName?`<span class="tri-project">${dot}${escHtml(item.projName)}</span>`:''}`;
-    div.querySelector('.tri-check').addEventListener('change',function(){if(item.src==='control')toggleDoneCtrl(item.id,'Manual','',this);else toggleDoneSub(item.pid,item.id,this);});
-    rowsEl.appendChild(div);
-  });
+  document.getElementById('todayRows').innerHTML='';
 }
 
 function updateBadges(){
