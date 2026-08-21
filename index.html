@@ -1102,8 +1102,6 @@ function allMaintTasks(){
   const out=[];
   (data.maintCategories||[]).forEach(c=>(c.tasks||[]).forEach(t=>out.push({...t,_catId:c.id,_catName:c.name,_catColor:c.color||PROJ_COLORS[0]})));
   (data.maintenance||[]).forEach(t=>out.push({...t,_catId:null,_catName:null,_catColor:null}));
-  // Include plant watering/repotting tasks
-  allPlantTasks().forEach(t=>out.push(t));
   return out;
 }
 function completeMaintTaskInCat(catId,tid){
@@ -1151,11 +1149,9 @@ function renderControl(){
       const cid='uchk-'+m.id;
       const dot=m._catColor?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${m._catColor};margin-right:2px;vertical-align:middle"></span>`:'';
       row.innerHTML=`<div class="c-check"><input type="checkbox" class="t-check" id="${cid}"><label class="check-vis" for="${cid}"></label></div><div class="upcoming-name">${escHtml(m.name)}</div><div class="upcoming-right"><span class="upcoming-date-label ${maintDateClass(diff)}">${maintDateLabel(diff)}</span><span class="upcoming-cat-label">${dot}${escHtml(m._catName||freqLabel(m))}</span></div>`;
-      row.querySelector('.t-check').addEventListener('change',function(){if(this.checked){
-        if(m._animalId&&m._type==='litter'){const an=(data.animals||[]).find(x=>x.id===m._animalId);if(an)an.litterLast=new Date().toISOString().slice(0,10);}
-        else if(m._animalId&&m._type==='med'){const an=(data.animals||[]).find(x=>x.id===m._animalId);if(an)an.medLast=new Date().toISOString().slice(0,10);}
-        else if(m._catId)completeMaintTaskInCat(m._catId,m.id);
-        scheduleSync();render();this.checked=false;}});
+       row.querySelector('.t-check').addEventListener('change',function(){if(this.checked){
+          if(m._catId)completeMaintTaskInCat(m._catId,m.id);
+          scheduleSync();render();this.checked=false;}});
       wrap.appendChild(row);
     });
     sec.appendChild(wrap);list.appendChild(sec);
@@ -1592,39 +1588,20 @@ function renderAnimalsTable(){
   if(empty)empty.style.display='none';
   tbody.innerHTML='';
   data.animals.forEach(an=>{
-     const ln=animalNextLitterDate(an.litterLast);
      const mn=animalNextMedDate(an.medLast);
      const nn=animalNextNailDate(an.nailLast);
-     const ld=animalDiffDays(ln),md=animalDiffDays(mn),nd=animalDiffDays(nn);
+     const md=animalDiffDays(mn),nd=animalDiffDays(nn);
      const tr=document.createElement('tr');
     tr.innerHTML='<td class="animal-name-cell">'+escHtml(an.name)+'</td>'
-      +'<td><span class="animal-freq-badge">Every 7d</span></td>'
-      +'<td id="al-'+an.id+'">'+(ln?animalDueBadge(ld)+' <span style="font-size:0.75em;color:var(--text3)">'+ln+'</span>':animalDueBadge(null))+'</td>'
       +'<td><span class="animal-freq-badge">Monthly (15th)</span></td>'
-      +'<td>'+(mn?animalDueBadge(md)+' <span style="font-size:0.75em;color:var(--text3)">'+mn+'</span>':animalDueBadge(null))+'</td>'
       +'<td>'+(an.nailLast?'<span style="font-size:0.78em;color:var(--text3)">Last: '+an.nailLast+'</span> '+animalDueBadge(nd):'—')+'</td>'
       +'<td style="font-size:0.78em;color:var(--text3);max-width:120px">'+escHtml(an.notes||'')+'</td>'
       +'<td><button class="animal-edit-btn" data-aid="'+an.id+'">Edit</button></td>';
     tr.querySelector('.animal-edit-btn').addEventListener('click',function(){openAnimalModal(this.dataset.aid);});
-    if(ln&&ld<=2){
-      const doneBtn=document.createElement('button');doneBtn.className='animal-edit-btn';doneBtn.style.marginLeft='4px';doneBtn.textContent='✓ Done';
-      doneBtn.addEventListener('click',()=>{const a=(data.animals||[]).find(x=>x.id===an.id);if(a){a.litterLast=new Date().toISOString().slice(0,10);scheduleSync();renderAnimalsTable();render();}});
-      document.getElementById('al-'+an.id).appendChild(doneBtn);
-    }
     tbody.appendChild(tr);
   });
 }
-function allPlantTasks(){
-  if(!data.animals)return[];
-  const out=[];
-   (data.animals||[]).forEach(an=>{
-      const ln=animalNextLitterDate(an.litterLast);
-      if(ln)out.push({id:'animal-litter-'+an.id,name:'Litterbox: '+an.name,freq:'every_n_days',interval:7,anchor:ln,_animalId:an.id,_type:'litter',_catName:'Animals',_catColor:'#c49a7a'});
-      const mn=animalNextMedDate(an.medLast);
-      if(mn)out.push({id:'animal-med-'+an.id,name:'Medicine: '+an.name,freq:'monthly_date',interval:1,anchor:mn,_animalId:an.id,_type:'med',_catName:'Animals',_catColor:'#9b8ea0'});
-   });
-   return out;
-}
+   
 function openAnimalModal(id){
   _editAnimalId=id||null;
   const an=id?(data.animals||[]).find(x=>x.id===id):null;
@@ -1748,8 +1725,7 @@ function assignTaskToProject(taskId,projId){
       <table class="animal-table">
         <thead><tr>
           <th>Animal</th>
-          <th>Litterbox Freq</th><th>Next Litterbox</th>
-          <th>Medicine Freq</th><th>Next Medicine</th>
+          <th>Medicine Freq</th>
           <th>Last Nail Clip</th>
           <th>Notes</th><th></th>
         </tr></thead>
