@@ -1572,7 +1572,6 @@ window.onload=async()=>{
 
 // ── ANIMALS ──
 let _editAnimalId=null;
-function animalNextLitterDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setDate(d.getDate()+7);return d.toISOString().slice(0,10);}
 function animalNextMedDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setMonth(d.getMonth()+1);d.setDate(15);return d.toISOString().slice(0,10);}
 function animalNextNailDate(last){if(!last)return null;const d=new Date(last+'T00:00:00');d.setDate(d.getDate()+28);return d.toISOString().slice(0,10);}
 function animalDiffDays(ds){if(!ds)return null;const now=new Date();now.setHours(0,0,0,0);return Math.round((new Date(ds+'T00:00:00')-now)/86400000);}
