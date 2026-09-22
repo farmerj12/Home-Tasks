@@ -1081,17 +1081,16 @@ function deleteOwnerById(id){if(!confirm('Delete this label?'))return;data.owner
 function addDays(s,n){const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
 function addMonths(s,n){const d=new Date(s+'T00:00:00');d.setMonth(d.getMonth()+n);return d.toISOString().slice(0,10);}
 function nextDueDate(m){
-  const today=todayStr(),anchor=m.anchor||today;
-  function advance(d){
-    if(m.freq==='daily') return addDays(d,1);
-    if(m.freq==='every_n_days') return addDays(d,parseInt(m.interval)||7);
-    if(m.freq==='weekly') return addDays(d,7);
-    if(m.freq==='biweekly') return addDays(d,14);
-    if(['monthly_date','monthly_first','monthly_last'].includes(m.freq)) return addMonths(d,1);
-    if(m.freq==='every_n_months') return addMonths(d,parseInt(m.interval)||3);
-    return addDays(d,1);
+  const today = todayStr();
+  const anchor = m.anchor || today;
+
+  // Only advance when user manually completes the task
+  if (m.lastDone === anchor) {
+    return advance(anchor);
   }
-  let d=anchor;while(d<today)d=advance(d);return d;
+
+  // Otherwise keep showing overdue until manually checked off
+  return anchor;
 }
 const UPCOMING_WINDOW=2;
 function maintDiffDays(m){const due=nextDueDate(m);const now=new Date();now.setHours(0,0,0,0);return Math.round((new Date(due+'T00:00:00')-now)/86400000);}
@@ -1205,12 +1204,15 @@ function makeCtrlRow(t,i,total){
     <div class="c-del"><button class="del-btn" onclick="deleteCtrl('${t.id}','${t._src}','${t._pid||''}')">✕</button></div>`;
   const nameCell=el.querySelector('.c-name');
 // Add subtask notes to Control page
-if (t._src === 'Project') {
-    const subNotes = document.createElement('div');
-    subNotes.style.cssText = "margin-top:6px;font-size:0.78em;color:var(--text3);white-space:pre-wrap;";
-    subNotes.textContent = t.notes || "";
-    nameCell.appendChild(subNotes);
-}
+   // --- Add notes toggle button for subtasks ---
+   if (t._src === 'Project') {
+       const notesBtn = document.createElement('button');
+       notesBtn.className = 'sub-notes-btn' + (t.notesOpen ? ' active' : '');
+       notesBtn.textContent = '📝';
+       notesBtn.style.marginLeft = "6px";
+       notesBtn.onclick = () => toggleCtrlSubNotes(t.id, t._pid);
+       nameCell.appendChild(notesBtn);
+   }
   // Owner tag
   const ownerEl=ownerTagEl(t._src==='Manual'?'ctrl':'sub',t.id,t.owner||null,t._pid||null);
   nameCell.appendChild(ownerEl);
@@ -1230,6 +1232,15 @@ if (t._src === 'Project') {
   }
   el.querySelector('.t-check').addEventListener('change',function(){toggleDoneCtrl(t.id,t._src,t._pid||'',this);});
   return el;
+   // --- Add notes toggle button for subtasks ---
+   if (t._src === 'Project') {
+       const notesBtn = document.createElement('button');
+       notesBtn.className = 'sub-notes-btn' + (t.notesOpen ? ' active' : '');
+       notesBtn.textContent = '📝';
+       notesBtn.style.marginLeft = "6px";
+       notesBtn.onclick = () => toggleCtrlSubNotes(t.id, t._pid);
+       nameCell.appendChild(notesBtn);
+   }
 }
 
 function renderProjects(){
@@ -1329,7 +1340,15 @@ function toggleProjNotes(pid){
   save_render();
   if(p.notesOpen)setTimeout(()=>{const ta=document.getElementById('proj-notes-'+pid)?.querySelector('textarea');if(ta)ta.focus();},50);
 }
+function toggleCtrlSubNotes(sid, pid) {
+    const proj = data.projects.find(x => x.id === pid);
+    if (!proj) return;
+    const sub = proj.subtasks.find(x => x.id === sid);
+    if (!sub) return;
 
+    sub.notesOpen = !sub.notesOpen;
+    save_render();
+}
 function toggleSubNotes(pid,sid){
   const p=data.projects.find(x=>x.id===pid);if(!p)return;
   const s=p.subtasks.find(x=>x.id===sid);if(!s)return;
