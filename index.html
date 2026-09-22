@@ -1124,6 +1124,14 @@ function save_render(){scheduleSync();render();}
 function renderControl(){
   const list=document.getElementById('controlList');
   let rows=[];
+   // Sort all control rows by due date
+   rows.sort((a, b) => {
+       // Tasks without dates go last
+       if (!a.due && !b.due) return 0;
+       if (!a.due) return 1;
+       if (!b.due) return -1;
+       return a.due < b.due ? -1 : 1;
+   });
   data.control.forEach(t=>rows.push({...t,_src:'Manual',_projName:null,_color:null}));
   data.projects.forEach(p=>(p.subtasks||[]).forEach(s=>rows.push({...s,_src:'Project',_projName:p.name,_pid:p.id,_color:p.color||null})));
   if(_activeFilter) rows=rows.filter(t=>t.owner===_activeFilter);
@@ -1196,6 +1204,13 @@ function makeCtrlRow(t,i,total){
     <div class="c-status"><span class="badge ${BADGE_CLS[t.status]||'badge-Waiting'}" onclick="cycleCtrlStatus('${t.id}','${t._src}','${t._pid||''}')">${t.status}</span></div>
     <div class="c-del"><button class="del-btn" onclick="deleteCtrl('${t.id}','${t._src}','${t._pid||''}')">✕</button></div>`;
   const nameCell=el.querySelector('.c-name');
+// Add subtask notes to Control page
+if (t._src === 'Project') {
+    const subNotes = document.createElement('div');
+    subNotes.style.cssText = "margin-top:6px;font-size:0.78em;color:var(--text3);white-space:pre-wrap;";
+    subNotes.textContent = t.notes || "";
+    nameCell.appendChild(subNotes);
+}
   // Owner tag
   const ownerEl=ownerTagEl(t._src==='Manual'?'ctrl':'sub',t.id,t.owner||null,t._pid||null);
   nameCell.appendChild(ownerEl);
