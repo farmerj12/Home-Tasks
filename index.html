@@ -1123,30 +1123,28 @@ function save_render(){scheduleSync();render();}
 function renderControl(){
   const list=document.getElementById('controlList');
   let rows=[];
+   data.control.forEach(t=>rows.push({...t,_src:'Manual',_projName:null,_color:null}));
+   data.projects.forEach(p=>(p.subtasks||[]).forEach(s=>rows.push({...s,_src:'Project',_projName:p.name,_pid:p.id,_color:p.color||null})));
+   if(_activeFilter) rows=rows.filter(t=>t.owner===_activeFilter);
    // Sort ALL Control tasks by due date before grouping
    rows = rows.sort((a, b) => {
-       const hasA = !!a.due;
-       const hasB = !!b.due;
+       const da = a.due ? new Date(a.due).getTime() : null;
+       const db = b.due ? new Date(b.due).getTime() : null;
    
-       // No dates → always go last
-       if (!hasA && !hasB) return 0;
-       if (!hasA) return 1;
-       if (!hasB) return -1;
+       // Undated always last
+       if (!da && !db) return 0;
+       if (!da) return 1;
+       if (!db) return -1;
    
-       // Compare actual dates
-       return a.due < b.due ? -1 : a.due > b.due ? 1 : 0;
+       return da - db;
    });
-  data.control.forEach(t=>rows.push({...t,_src:'Manual',_projName:null,_color:null}));
-  data.projects.forEach(p=>(p.subtasks||[]).forEach(s=>rows.push({...s,_src:'Project',_projName:p.name,_pid:p.id,_color:p.color||null})));
-   
-  if(_activeFilter) rows=rows.filter(t=>t.owner===_activeFilter);
 
   const upcomingMaint=allMaintTasks().filter(m=>maintDiffDays(m)<=UPCOMING_WINDOW).sort((a,b)=>maintDiffDays(a)-maintDiffDays(b));
   if(!rows.length&&!upcomingMaint.length){list.innerHTML='<div class="empty-state"><div class="ei">◈</div>No tasks yet</div>';return;}
   list.innerHTML='';
 
   // Today — sorted by due (past-due first, undated last)
-  const todayRows=rows.filter(t=>t.status==='Today').sort(compareDue);
+  const todayRows = rows.filter(t => t.status === 'Today')
   if(todayRows.length) renderStatusGroup(list,'Today','badge-Today',todayRows);
 
   // Upcoming maintenance
@@ -1171,11 +1169,11 @@ function renderControl(){
   }
 
   // Next — sorted by due (past-due first, undated last)
-  const nextRows=rows.filter(t=>t.status==='Next').sort(compareDue);
+  const nextRows = rows.filter(t => t.status === 'Next');
   if(nextRows.length) renderStatusGroup(list,'Next','badge-Next',nextRows);
 
-  const waitingRows=rows.filter(t=>t.status==='Waiting');
-  const doneRows=rows.filter(t=>t.status==='Done');
+  const waitingRows = rows.filter(t => t.status === 'Waiting');
+  const doneRows = rows.filter(t => t.status === 'Done')
   if(waitingRows.length) renderStatusGroup(list,'Waiting','badge-Waiting',waitingRows);
   if(showDone()&&doneRows.length) renderStatusGroup(list,'Done','badge-Done',doneRows);
 }
