@@ -1123,16 +1123,22 @@ function save_render(){scheduleSync();render();}
 function renderControl(){
   const list=document.getElementById('controlList');
   let rows=[];
-   // Sort all control rows by due date
-   rows.sort((a, b) => {
-       // Tasks without dates go last
-       if (!a.due && !b.due) return 0;
-       if (!a.due) return 1;
-       if (!b.due) return -1;
-       return a.due < b.due ? -1 : 1;
+   // Sort ALL Control tasks by due date before grouping
+   rows = rows.sort((a, b) => {
+       const hasA = !!a.due;
+       const hasB = !!b.due;
+   
+       // No dates → always go last
+       if (!hasA && !hasB) return 0;
+       if (!hasA) return 1;
+       if (!hasB) return -1;
+   
+       // Compare actual dates
+       return a.due < b.due ? -1 : a.due > b.due ? 1 : 0;
    });
   data.control.forEach(t=>rows.push({...t,_src:'Manual',_projName:null,_color:null}));
   data.projects.forEach(p=>(p.subtasks||[]).forEach(s=>rows.push({...s,_src:'Project',_projName:p.name,_pid:p.id,_color:p.color||null})));
+   
   if(_activeFilter) rows=rows.filter(t=>t.owner===_activeFilter);
 
   const upcomingMaint=allMaintTasks().filter(m=>maintDiffDays(m)<=UPCOMING_WINDOW).sort((a,b)=>maintDiffDays(a)-maintDiffDays(b));
@@ -1702,7 +1708,6 @@ function compareDue(a,b){
   if(!haB)return -1;
   return a.due<b.due?-1:a.due>b.due?1:0;
 }
-
 
 // ── ASSIGN TASK TO PROJECT ──
 let _assignPickerOpen=null;
